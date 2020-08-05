@@ -1,6 +1,6 @@
 {
-    "name": "grosv/laravel-package-template",
-    "description": "A repository template for Laravel packages",
+    "name": "grosv/shiftable-configs",
+    "description": "Modify core Laravel configurations withoug modifying the config files themselves",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Grosv\\LaravelPackageTemplate\\": "src/"
+            "Grosv\\ShiftableConfigs\\": "src/"
         }
     },
     "autoload-dev": {
@@ -32,7 +32,7 @@
     },
     "extra": {
         "laravel": {
-            "providers": "Grosv\\LaravelPackageTemplate\\LaravelPackageTemplateProvider"
+            "providers": "Grosv\\ShiftableConfigs\\ShiftableConfigs"
         }
     },
     "scripts": {
