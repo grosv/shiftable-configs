@@ -1,17 +1,42 @@
-# Laravel Package Repository Template
-A bare bones respository template for developing Laravel packages.
-### How To Use
-Use the green "Use this template" button above to create a new repository based on this repo. You'll get a fresh repository reflecting the code as it is right now in this repo, but with a fresh commit history.
+# Shiftable Configs
 
-After you've done that, you have some editing / refactoring to do. Depending on your IDE the instructions and difficulty of this will vary a bit. But however you accomplish them, here are your steps:
+### This package is a work in progress and won't be considered production ready until I've used it to upgrade a bunch of sites to Laravel 8 this fall
 
-1. Edit composer.json to change the vendor/packagename line, the description, the author name, and the author email. Also update the autoload blocks to reflect your vendor namespace and package name.
+As [JMac](https://twitter.com/gonedark) points out in [Base Laravel](https://baselaravel.com/), new major versions of Laravel often come with new values in the default configuration files. If those values are missing post-upgrade it can lead to errors and sometimes those errors are tough to track down.
+ 
+The best way to avoid this is to leave Laravel's core configurations in their default state and just using environment variables. That way when you upgrade, whether using [Laravel Shift](https://laravelshift.com/) or by hand, you can confidently pull in the new configuration files without worrying about losing any of your own settings. 
 
-2. Rename LaravelPackageTemplateProvider.php to be {YourPackageName}Provider.php and change the class name inside to match. Change the namespace to match your vendor namespace.
+This mostly works, but it does have its limitations. We have to deviate from this practice in the following situations:
 
-3. Go to tests/TestCase and change the name of the loaded service provider to match your package name.
+* We have to add database connections, which requires editing config/databases.php
 
-4. Run the tests. There should be one test and it should pass. If that happens, you know you at least haven't broken the test setup and should be ready to start building something great.
+* We have to register aliases or providers manually, which requires editing config/app.php
+
+My personal approach is to do absolutely everything I possibly can outside the core configuration files, leaving myself with just this tiny list of times when I have to break the rules. Then I use this package to make sure my customizations survive an upgrade.
+
+### Installation
+
+```shell script
+composer require grosv/shiftable-configs
+```
+
+### How Shiftable Configs Helps
+
+Shiftable Configs is a package that provides a command `php artisan make:shiftable-configs` that compares your configuration with the default configuration for your Laravel version (as determined by the requirement in your composer.json) and wherever the two are different, your customizations are saved to a new configuration file. No changes are made to your original configuration files.
+
+Then the Shiftable Configs service provider merges the values in this default configuration file into your site's configuration in the boot method. This means that if you were to reset all the core configuration files in your site to their default state, all your settings would be preserved.
+
+So an upgrade using Laravel shift would go something like this:
+
+1. Run `php artisan make:shiftable-configs`
+
+2. Do your shift
+
+3. Run `php artisan make:shiftable-configs` again
+
+4. Test and deploy your site.
+
+
 
 ### Linting and Testing
 
@@ -20,7 +45,3 @@ composer test:unit # Runs PHPUnit
 composer lint # Runs php-cs-fixer to fix your coding style
 composer test # Runs lint and then test:unit 
 ```
-
-### Acknowledgements
-
-I started off writing packages with the help of Marcel Pociot's excellent [Laravel Package Boilerplate](https://laravelpackageboilerplate.com/#/) and I purchased and used his course on package development. Without those two things I'd never have gotten to be nearly as proficient in package develpment as I am. If you are just starting out, I strongly recommend using those vs using this template or starting from scratch.
