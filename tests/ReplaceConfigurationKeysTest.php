@@ -15,5 +15,6 @@ class ReplaceConfigurationKeysTest extends TestCase
     public function can_override_the_config_location_for_tests()
     {
         $this->assertSame('An App By Any Other Name', config('app.name'));
+        $this->assertArrayHasKey('staging', config('database.connections'));
     }
 }
