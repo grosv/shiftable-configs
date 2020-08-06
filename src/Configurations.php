@@ -22,7 +22,7 @@ class Configurations
             if (!Config::has($k) || !is_array(Config::get($k))) {
                 Config::set($k, $v);
             } else {
-                Config::push($k, $v);
+                Config::set($k, Config::get($k) + $v);
             }
         }
     }
