@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\File;
 
-class ReplaceConfigurationKeysTest extends TestCase
+class CommandTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
@@ -13,9 +13,11 @@ class ReplaceConfigurationKeysTest extends TestCase
     }
 
     /** @test */
-    public function can_override_the_config_location_for_tests()
+    public function can_run_the_command()
     {
-        $this->assertSame('An App By Any Other Name', config('app.name'));
-        $this->assertArrayHasKey('staging', config('database.connections'));
+        $this->artisan('make:shiftable-configs')
+            ->assertExitCode(0);
+
+        $this->assertStringContainsString('An App By Any Other Name', File::get(__DIR__ . '/configs/overrides.php'));
     }
 }

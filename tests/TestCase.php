@@ -10,11 +10,13 @@ abstract class TestCase extends BaseTestCase
     public function setUp(): void
     {
         parent::setUp();
+        touch(__DIR__ . '/configs/overrides.php');
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
+        unlink(__DIR__ . '/configs/overrides.php');
     }
 
     protected function getPackageProviders($app)
