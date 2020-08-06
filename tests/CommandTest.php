@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 class CommandTest extends TestCase
@@ -19,5 +20,10 @@ class CommandTest extends TestCase
             ->assertExitCode(0);
 
         $this->assertStringContainsString('An App By Any Other Name', File::get(__DIR__ . '/configs/overrides.php'));
+
+        $overrides = [];
+        Arr::set($overrides, 'root', include(__DIR__ . '/configs/overrides.php'));
+
+        $this->assertContains('Grosv\ShiftableConfigs\ShiftableConfigsProvider', $overrides['root']['app']['providers']);
     }
 }

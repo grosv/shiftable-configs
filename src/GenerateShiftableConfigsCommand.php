@@ -37,7 +37,7 @@ class GenerateShiftableConfigsCommand extends Command
             }
         }
 
-        File::put(config('shiftable-config.overrides_file'), VarExporter::export($overrides));
+        File::put(config('shiftable-config.overrides_file'), "<?php\n\nreturn " . VarExporter::export($overrides) . ';');
 
         return 0;
     }
