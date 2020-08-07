@@ -14,7 +14,7 @@ class GenerateShiftableConfigsCommand extends Command
 
     public function handle(Configurations $configurations)
     {
-        $versions = ['5.5', '5.6', '5.7', '5.8', '6.0', '7.0'];
+        $versions = ['5.5', '5.6', '5.7', '5.8', '6.0', '7.0', '8.0'];
 
         $laravel = explode('.', preg_replace('/[^0-9.]/', '',
             json_decode(File::get(base_path('/composer.json')), true)['require']['laravel/framework']));
