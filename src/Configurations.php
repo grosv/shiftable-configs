@@ -16,6 +16,15 @@ class Configurations
         }
     }
 
+    public function core()
+    {
+        $core = [];
+        foreach (array_keys(config('default_configs')) as $k) {
+            $core[$k] = config($k);
+        }
+        return $core;
+    }
+
     public function custom()
     {
         foreach (Arr::dot(config('shiftable-config-overrides')) as $k => $v) {

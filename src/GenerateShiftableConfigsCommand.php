@@ -28,10 +28,9 @@ class GenerateShiftableConfigsCommand extends Command
         }
 
         $configurations->defaults($v);
-
         $overrides = [];
 
-        foreach (Arr::dot(config('default_configs')) as $k => $v) {
+        foreach (Arr::dot($configurations->core()) as $k => $v) {
             if (Config::get($k) != Config('default_configs.' . $k)) {
                 Arr::set($overrides, $k, Config::get($k));
             }
